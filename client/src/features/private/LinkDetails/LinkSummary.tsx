@@ -38,9 +38,9 @@ const LinkSummary = ({ id }: { id: string }) => {
         const clickCount = await FetchClicks(authToken, id);
         setClicks(clickCount);
         const weeklyCount = await FetchWeeklyCount(authToken, id);
-        setWeekyClicks(weeklyCount.clickData);
+        setWeekyClicks(weeklyCount);
         const weeklyPerc = await FetchWeeklyChange(authToken, id);
-        setWeekyChange(weeklyPerc.percentageChange);
+        setWeekyChange(weeklyPerc);
 
         setLoading(false);
     };

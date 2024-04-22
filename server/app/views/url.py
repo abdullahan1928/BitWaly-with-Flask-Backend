@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.url import Url
+from app.models.analytics import Analytics
 from app.middlewares.fetch_user import fetch_user
 import json
 
@@ -11,9 +12,13 @@ url_blueprint = Blueprint('url', __name__, url_prefix='/url')
 
 @url_blueprint.route("/retreive/<short_url>", methods=['POST'])
 def retrieve_url(short_url):
-    retrieved_url = Url.find_by_short_url(short_url)
-    if retrieved_url:
-        return json.dumps(retrieved_url, default=str), 200
+    url = Url.find_by_short_url(short_url)
+
+    if url:
+        url['access_count'] += 1
+        url.save()
+
+        return json.dumps(url, default=str), 200
     else:
         return jsonify({"error": "URL not found"}), 404
 

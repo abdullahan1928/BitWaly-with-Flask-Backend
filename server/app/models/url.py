@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 
 class Url:
     def __init__(self, user_id, original_url, short_url, shard_key, title=None, image=None, is_custom=False, tags=None, former_urls=None):
-        self.user_id = user_id
+        self.user = user_id
         self.original_url = original_url
         self.short_url = short_url
         self.shard_key = shard_key
@@ -21,7 +21,7 @@ class Url:
     @staticmethod
     def find_by_short_url(short_url):
         urls_collection = mongo.db.urls
-        return urls_collection.find_one({"short_url": short_url})
+        return urls_collection.find_one({"shortUrl": short_url})
 
     @staticmethod
     def find_by_id(userId, id):
@@ -44,7 +44,7 @@ class Url:
     def delete_url(user_id, url_id):
         urls_collection = mongo.db.urls
         deleted_url = urls_collection.find_one_and_delete(
-            {"_id": ObjectId(url_id), "user_id": ObjectId(user_id)})
+            {"_id": ObjectId(url_id), "user": ObjectId(user_id)})
         if deleted_url:
             return deleted_url
         else:
@@ -54,7 +54,7 @@ class Url:
     def update_url(user_id, url_id, update_data):
         urls_collection = mongo.db.urls
         updated_url = urls_collection.find_one_and_update(
-            {"_id": ObjectId(url_id), "user_id": ObjectId(user_id)},
+            {"_id": ObjectId(url_id), "user": ObjectId(user_id)},
             {"$set": update_data},
             return_document=True
         )

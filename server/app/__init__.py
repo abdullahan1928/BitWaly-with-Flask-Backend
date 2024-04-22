@@ -23,6 +23,8 @@ def register_blueprints(app):
     app.register_blueprint(views.url.url_blueprint)
     app.register_blueprint(views.analytics.analytics_blueprint)
     app.register_blueprint(views.tag.tag_blueprint)
+    app.register_blueprint(views.formerUrl.formerUrl_blueprint)
+    app.register_blueprint(views.summary.summary_blueprint)
 
 
 register_blueprints(app)
